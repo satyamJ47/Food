@@ -34,6 +34,7 @@ const NavList = () => {
 
 const Sign = () => {
   const [isSignedIn, setIsSignedIn] = useState(false);
+  // console.log("Sigin");
   return (
     <div class="w-20">
       {isSignedIn ? (
@@ -41,13 +42,16 @@ const Sign = () => {
           <button onClick={() => setIsSignedIn(false)}>Sign Out</button>
         </div>
       ) : (
-        <button onClick={() => setIsSignedIn(true)}>Sign In</button>
+        <div>
+          <button onClick={() => setIsSignedIn(true)}>Sign In</button>
+        </div>
       )}
     </div>
   );
 };
 
 const Header = () => {
+  // console.log("header");
   return (
     <div class="border border-black flex p-1 justify-between items-center">
       <Logo />
