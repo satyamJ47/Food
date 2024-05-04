@@ -1,6 +1,7 @@
 import { restaurantList, IMG_CDN_URL } from "./constants";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 function filterData(searchText, allRestaurants) {
   if (searchText === "") return allRestaurants;
@@ -25,10 +26,15 @@ const Body = () => {
     getData();
   }, []);
 
+  // if we doesnt provid any dependency array useEffect will keep getting called on each render
+
   async function getData() {
+    // akshay
+    // "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
+    // "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6126255&lng=77.04108959999999&page_type=DESKTOP_WEB_LISTING"
     response = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6126255&lng=77.04108959999999&page_type=DESKTOP_WEB_LISTING"
       // "https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.61610&lng=73.72860&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     json = await response.json();
     console.log(json);
@@ -38,16 +44,15 @@ const Body = () => {
     setFilteredRestaurants(
       json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
-    // return json;
+    return json;
+    // console.log("useEffect");
   }
 
   console.log("render()");
 
   // conditional rendering
 
-  return allRestaurants?.length === 0 ? (
-    <Shimmer />
-  ) : (
+  return (
     <div class="border border-green-600 p-1 ">
       <div>
         <input
@@ -84,9 +89,17 @@ const Body = () => {
       </div>
 
       <div class="flex flex-wrap justify-between p-1">
-        {filteredRestaurants.length === 0 ? <h1>No Matching Data</h1> : null}
+        {allRestaurants.length === 0 ? (
+          <Shimmer />
+        ) : filteredRestaurants.length === 0 ? (
+          <h1>No Matching Data</h1>
+        ) : null}
         {filteredRestaurants.map((rest) => {
-          return <RestaurantCard key={rest.info.id} {...rest.info} />;
+          return (
+            <Link key={rest?.info?.id} to={"restaurant/" + rest?.info?.id}>
+              <RestaurantCard {...rest.info} />
+            </Link>
+          );
         })}
       </div>
     </div>
