@@ -26,8 +26,8 @@ const RestaurantMenuCard = ({ isVeg, name, price, description, imageId }) => {
         <h1 className="">₹ {price / 100}</h1>
         <h1 className="text-slate-600">{description}</h1>
       </div>
-      <div className="h-full w-2/6 flex justify-end p-1">
-        <img className="h-full w-40 rounded-md" src={IMG_CDN_URL + imageId} />
+      <div className="h-40 w-2/6 flex justify-end p-1">
+        <img className=" w-40 rounded-md" src={IMG_CDN_URL + imageId} />
       </div>
     </div>
   );
